@@ -4,57 +4,21 @@ e mostre-os, considere que o usuário não pode informar letras,
 palavras ou vazio. Alerte-o do erro e repita a leitura caso ocorra.
 */
 
-function VerificarNumero(val) {
-
-    let certo = true;
-
-    if (val.trim() == '') {
-        alert("Não há nenhum número!");
-        certo = false;
-
-    } else if (isNaN(val)) {
-
-        alert("Só é permitido números!");
-        certo = false;
-    }
-
-    return certo;
-
-}
-
-function ExibirNumeros(listanum) {
-    let mensagem = "";
-    for (let i = 0; i < listanum.length; i++) {
-
-        let ultimaPosicao = (listanum.length - 1); 
-        
-        if(i == ultimaPosicao)
-            mensagem += listanum[i] + ".";
-        else
-            mensagem += listanum[i] + ", ";    
-    }
-    alert(mensagem);
-}
-
 function LerNumero() {
 
-    let lista = [];
-    let passou = true;
-    do {
-        for (let i = 0; i < 5; i++) {
-            let valor = prompt("Informe um número: ");
-            passou = VerificarNumero(valor);
-            if (passou == false) {
-                break;
-            }
+    let listaNumeros = [];
 
-            lista.push(parseInt(valor));
+    for (let i = 0; i < 5; i++) {
+        let numero = prompt("Informe um número:");
+        while (isNaN(numero) || numero.trim() === "") {
+            alert("O valor digitado não é um número, digite um número!");
+            numero = prompt("Informe um número:");
         }
-    } while (passou == false);
-
-    ExibirNumeros(lista);
-
+        listaNumeros.push(parseInt(numero));
+    }
+    return listaNumeros;
 }
 
+let lista = LerNumero();
 
-LerNumero(); 
+alert(lista.join(","));
