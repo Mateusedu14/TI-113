@@ -6,51 +6,45 @@ parada do cadastro e na parada final, mostre os nomes,
 considerando 10% de INSS a descontar.
 */
 
-// Array para armazenar os dados
-let cadastro = [];
-
-// Função para adicionar uma pessoa ao cadastro
-function adicionarPessoa(nome, salarioBruto) {
-    if (cadastro.length < 50) {
-        cadastro.push({ nome: nome, salarioBruto: salarioBruto });
-    } else {
-        console.log('Cadastro está cheio. Não é possível adicionar mais pessoas.');
-    }
-}
-
-// Função para calcular o salário líquido
+// Função para calcular o salário líquido após o desconto de INSS
 function calcularSalarioLiquido(salarioBruto) {
-    const descontoINSS = 0.10;
+    const descontoINSS = 0.10; // 10%
     return salarioBruto - (salarioBruto * descontoINSS);
 }
-
-// Função para exibir todos os dados
-function exibirDados() {
-    console.log('Cadastro de Pessoas:');
-    cadastro.forEach(pessoa => {
-        const salarioLiquido = calcularSalarioLiquido(pessoa.salarioBruto);
-        console.log(`Nome: ${pessoa.nome}, Salário Bruto: R$${pessoa.salarioBruto.toFixed(2)}, Salário Líquido: R$${salarioLiquido.toFixed(2)}`);
-    });
-}
-
-// Função principal para o menu de cadastro
-function menuCadastro() {
-    let continuar = true;
-    while (continuar && cadastro.length < 50) {
-        // Solicitar o nome e o salário bruto da pessoa
-        let nome = prompt('Digite o nome da pessoa:');
-        let salarioBruto = parseFloat(prompt('Digite o salário bruto da pessoa:'));
-
-        // Adicionar a pessoa ao cadastro
-        adicionarPessoa(nome, salarioBruto);
-
-        // Perguntar se deseja continuar
-        continuar = confirm('Deseja cadastrar outra pessoa?');
+ 
+// Função principal para o gerenciamento do cadastro
+function gerenciarCadastro() {
+    let cadastro = [];
+    let continuarCadastro = true;
+ 
+    while (continuarCadastro && cadastro.length < 50) {
+        let nome = prompt("Digite o nome da pessoa:");
+        let salarioBruto = parseFloat(prompt("Digite o salário bruto da pessoa:"));
+ 
+        // Validar entrada
+        if (nome.trim() === "" || isNaN(salarioBruto) || salarioBruto < 0) {
+            alert("Entrada inválida. Por favor, insira um nome válido e um salário bruto não negativo.");
+            continue;
+        }
+ 
+        // Adicionar ao cadastro
+        cadastro.push({ nome, salarioBruto });
+ 
+        // Verificar se o usuário deseja continuar
+        continuarCadastro = confirm("Deseja cadastrar outra pessoa?");
     }
-
-    // Exibir todos os dados
-    exibirDados();
+ 
+    // Mostrar os dados cadastrados em um alerta
+    let resultado = "Cadastro Completo:\n";
+    resultado += "Nome | Salário Bruto | Salário Líquido com desconto de 10% do INSS\n";
+ 
+    cadastro.forEach(({ nome, salarioBruto }) => {
+        let salarioLiquido = calcularSalarioLiquido(salarioBruto);
+        resultado += `${nome} | ${salarioBruto.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} | ${salarioLiquido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}\n`;
+    });
+ 
+    alert(resultado);
 }
-
-// Iniciar o menu de cadastro
-menuCadastro();
+ 
+// Chamar a função principal para iniciar o cadastro
+gerenciarCadastro();
